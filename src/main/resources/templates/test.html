@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Data Display</title>
+  </head>
+  <body onload="openNewTab()">
+  
+  <h2>Received JWT:</h2>
+    <p id="jwtValue" th:text="${JWT}"></p>
+    
+    
+    <h3>Enter some data to display in a new tab:</h3>
+    <input type="text" id="userInput" value="">
+
+    <button id="openWindowButton">Open New Tab and Display Data</button>
+    
+    <script>
+    
+    function openNewTab() {
+	var newWindow = window.open("about:blank", "_blank");
+
+    // Check if new window is successfully opened
+    if (newWindow) {
+      // Add content to the new tab
+      newWindow.document.write("<h3>New Tab Opened!</h3><p>Data will be displayed here.</p>");
+      // Optionally, reload the new tab after a delay
+      newWindow.location.reload();
+    } else {
+      alert("Popup was blocked. Please check your browser settings.");
+    }
+    }
+    
+    var jwtData = document.getElementById("jwtValue").innerText;
+    console.log("Jwt value : ", jwtData);
+    </script>
+
+    <script>
+      
+      document.getElementById("openWindowButton").onclick = function () {
+        var userData = document.getElementById("userInput").value;
+        console.log("User input : ", userData);
+
+        // Check if data is available
+        if (userData) {
+          // Open a new tab
+          var newWindow = window.open("about:blank", "_blank");
+
+          if (newWindow) {
+            // Add the content to the new tab
+            newWindow.document.write(`
+              <h3>Data Entered:</h3>
+              <p><strong>User Input:</strong> ${userData}</p>
+            `);
+          } else {
+            alert("Popup was blocked. Please check your browser settings.");
+          }
+        } else {
+          alert("Please enter some data.");
+        }
+      };
+    </script>
+  </body>
+</html>

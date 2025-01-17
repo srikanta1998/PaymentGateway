@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<p id="jwtValue" th:text="${JWT}"></p>
+<p id="requestID" th:text="${requestID}"></p>
+    
+    <script>
+      // Capture JWT value
+      var jwtData = document.getElementById("jwtValue").innerText;
+	  var requestId = document.getElementById("requestID").innerText;
+      console.log("Jwt value: ", jwtData);
+	  console.log("Request ID: ", requestId);
+    </script>
+
+<script>
+
+window.onload = function() {
+
+var stepUpForm = document.querySelector('#step-up-form');
+
+if(stepUpForm) // step-up form exists
+
+	stepUpForm.submit();
+
+}
+
+</script>
+
+<iframe name="step-up-iframe" height="400" width="400"></iframe>
+
+<form id="step-up-form" method="POST" target="step-up-iframe" action="https://centinelapistag.cardinalcommerce.com/V2/Cruise/StepUp">
+
+<input type="hidden" name="JWT" th:value="${JWT}">
+
+<input type="hidden" name="MD" th:value="${requestID}">
+
+<input type="hidden" name="TermUrl" value="http://localhost:8080/IFrameResponse1">
+
+</form>
+
+<script>
+
+const originalConsole = {
+		  debug: console.debug,
+		  info: console.info,
+		  warn: console.warn,
+		  error: console.error,
+		};
+
+		// Override the console methods to capture messages
+		['debug', 'info', 'warn', 'error'].forEach((logLevel) => {
+		  console[logLevel] = function (...args) {
+		    // Custom behavior: Use console.log to print the captured messages
+		    console.log(`[Captured ${logLevel.toUpperCase()}]:`, ...args);
+
+		    // Call the original console method
+		    if (originalConsole[logLevel]) {
+		      originalConsole[logLevel].apply(console, args);
+		    }
+		  };
+		});
+
+// Example fetch call to monitor
+fetch('/IFrameResponse', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ data: event.data }) // Sending the data in the request body
+})
+.then(response => response.json())  // If you want to handle the response from the server
+.then(data => {
+    console.log('Success:', data);
+})
+.catch((error) => {
+    console.error('Error:', error);
+});
+
+</script>
+</body>
+</html>
