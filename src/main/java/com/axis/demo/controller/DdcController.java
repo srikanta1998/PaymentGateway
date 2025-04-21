@@ -22,61 +22,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class DdcController {
-	
-	@Autowired
-	private PaymentController paymentController;
 
-	@GetMapping("/ddc")
-	public ModelAndView handleRequest(Model model) {
-        
-        	String responseBody = paymentController.getSetUpResponse();
-		
-        	String JWT = extractJwtFromResponse(responseBody);
-           
-        if (JWT == null || JWT.isEmpty()) {
-            model.addAttribute("error", "Failed to retrieve JWT");
-            return new ModelAndView("error");
-        }
-                model.addAttribute("JWT", JWT);
-        
-        return new ModelAndView("NewDDC");  
-        
-    }
+    @Autowired
+    private PaymentController paymentController;
     
-    private String extractJwtFromResponse(String response) {
+    @GetMapping("/ddc")
+    public ModelAndView ddcCall(Model model) {
     	
+    	String jwt = paymentController.getJWT();
+    	
+                model.addAttribute("JWT", jwt);
 
-    	if (response == null || response.isEmpty()) {
-            throw new IllegalArgumentException("Response body is null or empty");
-        }
-		try {
-            
-            ObjectMapper objectMapper = new ObjectMapper();
-            
-            JsonNode jsonNode = objectMapper.readTree(response);
-            
-            JsonNode jwtNode = jsonNode.path("consumerAuthenticationInformation").path("accessToken");
-            System.out.println("JWT is : "+jwtNode);
-            if (jwtNode != null && !jwtNode.isNull()) {
-            	
-                return jwtNode.asText();
-            } else {
-                System.out.println("No JWT");
-                return "";
-            }
-        } catch (IOException e) {
-            
-            e.printStackTrace();
-            return "";
-        }
-    }
+
     
-    @PostMapping("/processCardinalResponse")
-    public ResponseEntity<String> processCardinalResponse(@RequestBody Map<String, Object> request) {
-        System.out.println("Received data from Cardinal: " + request.get("data"));
-        // Handle the received data as needed
-        return ResponseEntity.ok("Response successfully processed!");
+    return new ModelAndView("NewDDC");
     }
+
+
+
+
 
 
 }

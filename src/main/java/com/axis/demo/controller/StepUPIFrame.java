@@ -32,7 +32,7 @@ public class StepUPIFrame {
 	@GetMapping("/stepup-iframe")
 	public ModelAndView handleRequest(Model model) {
         
-        	String responseBody = paymentController.getEnrollmentResponse();
+        	String responseBody = PaymentController.getEnrollmentResponse();
 		
         	Map<String, String> result = extractJwtFromResponse(responseBody);
         	

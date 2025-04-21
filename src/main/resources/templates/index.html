@@ -5,20 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-<form action="#" th:action="@{/saveStudent}" th:object="${student}" method="post">
-    <table border="1">
-        <tr>
-            <td><label th:text="#{msg.id}" /></td>
-            <td><input type="number" th:field="*{id}" /></td>
-        </tr>
-        <tr>
-            <td><label th:text="#{msg.name}" /></td>
-            <td><input type="text" th:field="*{name}" /></td>
-        </tr>
+<form action="#" th:action="@{/NewDDC}"  method="post">
+
         <tr>
             <td><input type="submit" value="Submit" /></td>
         </tr>
-    </table>
+
 </form>
 </body>
 </html>

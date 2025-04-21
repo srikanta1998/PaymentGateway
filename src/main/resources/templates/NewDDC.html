@@ -1,78 +1,77 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-	<p id="jwtValue" th:text="${JWT}"></p>
+<p id="jwtValue" th:text="${JWT}"></p>
 
-	<script>
-      // Capture JWT value
-      var jwtData = document.getElementById("jwtValue").innerText;
-      console.log("Jwt value: ", jwtData);
-    </script>
+<script>
+    // Capture JWT value
+    var jwtData = document.getElementById("jwtValue").innerText;
+    console.log("Jwt value: ", jwtData);
+</script>
 
-	<script>
+<script>
 
-window.onload = function() {
-	
-	//var newWindow = window.open("about:blank", "_blank");
+    window.onload = function() {
 
-    // Check if new window is successfully opened
-    //if (newWindow) {
-      // Add content to the new tab
-      //newWindow.document.write("<h3>New Tab Opened!</h3><p>Data will be displayed here.</p>");
-      // Optionally, reload the new tab after a delay
-      //newWindow.location.reload();
-    //} else {
-      //alert("Popup was blocked. Please check your browser settings.");
-    //}
+        //var newWindow = window.open("about:blank", "_blank");
 
-var cardinalCollectionForm = document.querySelector('#cardinal_collection_form');
+        // Check if new window is successfully opened
+        //if (newWindow) {
+          // Add content to the new tab
+          //newWindow.document.write("<h3>New Tab Opened!</h3><p>Data will be displayed here.</p>");
+          // Optionally, reload the new tab after a delay
+          //newWindow.location.reload();
+        //} else {
+          //alert("Popup was blocked. Please check your browser settings.");
+        //}
 
-if(cardinalCollectionForm) // form exists
+    var cardinalCollectionForm = document.querySelector('#cardinal_collection_form');
 
-cardinalCollectionForm.submit();
+    if(cardinalCollectionForm) // form exists
 
-}
+    cardinalCollectionForm.submit();
+
+    }
 
 </script>
 
-	<iframe id="cardinal_collection_iframe" name="collectionIframe"
-		height="1" width="1" style="display: none;"></iframe>
+<iframe id="cardinal_collection_iframe" name="collectionIframe"
+        height="1" width="1" style="display: none;"></iframe>
 
-	<form id="cardinal_collection_form" method="POST"
-		target="collectionIframe"
-		action="https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect">
+<form id="cardinal_collection_form" method="POST"
+      target="collectionIframe"
+      action="https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect">
 
-		<input id="cardinal_collection_form_input" type="text" name="JWT"
-			th:value="${JWT}">
+    <input id="cardinal_collection_form_input" type="text" name="JWT"
+           th:value="${JWT}">
 
-	</form>
+</form>
 
-	<script>
+<script>
 
-window.addEventListener("message", function(event) {
+    window.addEventListener("message", function(event) {
 
-if (event.origin === "https://centinelapistag.cardinalcommerce.com"){
-console.log(event.data);
+    if (event.origin === "https://centinelapistag.cardinalcommerce.com"){
+    console.log(event.data);
 
-fetch('/processCardinalResponse', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ data: event.data }) // Sending the data in the request body
-})
-.then(response => response.json())  // If you want to handle the response from the server
-.then(data => {
-    console.log('Success:', data);
-})
-.catch((error) => {
-    console.error('Error:', error);
-});
+    fetch('/api/payments/processCardinalResponse', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: event.data }) // Sending the data in the request body
+    })
+    .then(response => response.text())  // If you want to handle the response from the server
+    .then(data => {
+        window.location.href = "/"+data;
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 
-}
-}, false);
+    }
+    }, false);
 </script>
 </body>
 </html>
