@@ -1,17 +1,14 @@
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<p id="jwtValue" th:text="${JWT}"></p>
+<p id="PaReq" th:text="${PaReq}"></p>
 <p id="requestID" th:text="${requestID}"></p>
-
 <script>
     // Capture JWT value
-    var jwtData = document.getElementById("jwtValue").innerText;
+    var PaReq = document.getElementById("PaReq").innerText;
     var requestId = document.getElementById("requestID").innerText;
-    console.log("Jwt value: ", jwtData);
+    console.log("PaReq value: ", PaReq);
     console.log("Request ID: ", requestId);
 </script>
 
@@ -19,29 +16,28 @@
 
     window.onload = function() {
 
-    var stepUpForm = document.querySelector('#step-up-form');
+    var PAEnrollForm = document.querySelector('#pa-enroll-form');
 
-    if(stepUpForm) // step-up form exists
+    if(PAEnrollForm) // step-up form exists
 
-        stepUpForm.submit();
+        PAEnrollForm.submit();
 
     }
 
 </script>
 
-<iframe name="step-up-iframe" height="400" width="400"></iframe>
+<iframe name="paInlineFrame" height="400" width="400"></iframe>
+<form id="pa-enroll-form" method="POST" target="paInlineFrame" action="https://testflex.cybersource.com/payerAuthentication/ruPay/redirection?binType=S">
 
-<form id="step-up-form" method="POST" target="step-up-iframe" action="https://centinelapistag.cardinalcommerce.com/V2/Cruise/StepUp">
-
-    <input type="hidden" name="JWT" th:value="${JWT}">
+    <input type="hidden" name="PaReq" th:value="${PaReq}">
 
     <input type="hidden" name="MD" th:value="${requestID}">
 
-    <input type="hidden" name="TermUrl" value="http://localhost:8080/IFrameResponse1">
+    <input type="hidden" name="TermUrl" value="http://localhost:8080/IFrameRupayResponse">
 
 </form>
 
-<script>
+<!--<script>-->
 
 <!--    const originalConsole = {-->
 <!--              debug: console.debug,-->
@@ -50,7 +46,7 @@
 <!--              error: console.error,-->
 <!--            };-->
 
-            // Override the console methods to capture messages
+<!--            // Override the console methods to capture messages-->
 <!--            ['debug', 'info', 'warn', 'error'].forEach((logLevel) => {-->
 <!--              console[logLevel] = function (...args) {-->
 <!--                // Custom behavior: Use console.log to print the captured messages-->
@@ -63,7 +59,7 @@
 <!--              };-->
 <!--            });-->
 
-    // Example fetch call to monitor
+<!--    // Example fetch call to monitor-->
 <!--    fetch('/IFrameResponse', {-->
 <!--        method: 'POST',-->
 <!--        headers: {-->
@@ -79,6 +75,6 @@
 <!--        console.error('Error:', error);-->
 <!--    });-->
 
-</script>
+<!--</script>-->
 </body>
 </html>

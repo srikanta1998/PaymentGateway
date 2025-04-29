@@ -133,13 +133,57 @@ public class PaymentController {
             System.out.println("Enrollment Method Executed!");
 
             System.out.println("Kindly paste this URL in browser and load it to run DDC call : http://localhost:8080/stepup-iframe");
+
             System.out.println("Enrolment response - "+enrollmentResponse);
+
             return ResponseEntity.ok("stepup-iframe");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Failed to send payment request: " + e.getMessage());
         }
     }
+
+    @PostMapping("/RuPayEnrollment")
+    public ResponseEntity<String> rupayEnrollmentRequest(@RequestBody String requestBody) {
+        try {
+
+            String httpMethod = "POST";
+            String url = "https://apitest.cybersource.com/risk/v1/authentications";
+
+            enrollmentResponse = paymentService.sendPaymentRequest(requestBody, url, httpMethod);
+            System.out.println("Enrollment Method Executed!");
+
+            System.out.println("Kindly paste this URL in browser and load it to run DDC call : http://localhost:8080/pa-inlineframe");
+
+            System.out.println("Enrolment response - "+enrollmentResponse);
+
+//            ObjectMapper mapper = new ObjectMapper();
+//            JsonNode root = mapper.readTree(requestBody);
+//            String urlSegment = root.path("url").asText();
+//
+//            if (urlSegment == null || urlSegment.isEmpty()) {
+//                return ResponseEntity.badRequest().body("URL from postman request is missing while extracting to process rupay transaction");
+//            }
+//
+//            // Remove trailing slash
+//            if (urlSegment.endsWith("/")) {
+//                urlSegment = urlSegment.substring(0, urlSegment.length() - 1);
+//            }
+//
+//            String[] parts = urlSegment.split("/");
+//            String lastSegment = parts[parts.length - 2];
+//
+//            if(lastSegment.equals("RuPay")){
+//                return ResponseEntity.ok("pa-inlineframe");
+//            }
+
+            return ResponseEntity.ok("pa-inlineframe");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Failed to send payment request: " + e.getMessage());
+        }
+    }
+
 
     @PostMapping("/validation")
     public ResponseEntity<String> validationRequest(@RequestBody String requestBody, HttpServletRequest request, Model model) {
